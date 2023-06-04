@@ -1,0 +1,7 @@
+#ignore ros build, install and devel folders
+baxter_ws/build
+baxter_ws/devel
+baxter_ws/install
+*.rosinstall
+*.rosinstall.*
+baxter_ws/baxter.sh
