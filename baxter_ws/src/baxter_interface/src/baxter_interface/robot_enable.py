@@ -84,7 +84,7 @@ class RobotEnable(object):
 
         baxter_dataflow.wait_for(
             lambda: not self._state is None,
-            timeout=2.0,
+            timeout=10.0,
             timeout_msg=("Failed to get robot state on %s" %
             (state_topic,)),
         )
@@ -93,14 +93,14 @@ class RobotEnable(object):
         self._state = msg
 
     def _toggle_enabled(self, status):
-
+        
         pub = rospy.Publisher('robot/set_super_enable', Bool, 
                               queue_size=10)
 
         baxter_dataflow.wait_for(
             test=lambda: self._state.enabled == status,
-            timeout=2.0 if status else 5.0,
-            timeout_msg=("Failed to %sable robot" %
+            timeout=10.0 if status else 5.0,
+            timeout_msg=("Failed to %sable robot on _toggle_enabled" %
                          ('en' if status else 'dis',)),
             body=lambda: pub.publish(status),
         )
@@ -160,7 +160,7 @@ http://sdk.rethinkrobotics.com/wiki/RSDK_Shell#Initialize
         try:
             baxter_dataflow.wait_for(
                 test=is_reset,
-                timeout=3.0,
+                timeout=10.0,
                 timeout_msg=error_env,
                 body=pub.publish
             )
@@ -179,7 +179,7 @@ http://sdk.rethinkrobotics.com/wiki/RSDK_Shell#Initialize
         pub = rospy.Publisher('robot/set_super_stop', Empty, queue_size=10)
         baxter_dataflow.wait_for(
             test=lambda: self._state.stopped == True,
-            timeout=3.0,
+            timeout=10.0,
             timeout_msg="Failed to stop the robot",
             body=pub.publish,
         )
